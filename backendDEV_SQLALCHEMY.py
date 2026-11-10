@@ -19,7 +19,7 @@ products_table = Table(
     'products', metadata,
     Column('id', Integer, primary_key=True),
     Column('name', String, nullable=False),
-    Column('price', Float)),
+    Column('price', Float),
 )
 
 def create_tbl():
