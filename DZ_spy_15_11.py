@@ -4,7 +4,7 @@ url_name = 'https://api.agify.io?name=Фёдор'
 url_pol = 'https://api.genderize.io?name=Фёдор'
 url_active = 'https://jsonplaceholder.typicode.com/posts'
 url_server = 'https://httpbin.org/post'
-#url_pic = 'https://picsum.photos/400/300'
+#url_pic = 'https://picsum.photos/400/300' ???
 url_pic = 'https://httpbin.org/image/jpeg'
 
 try:
@@ -73,6 +73,7 @@ except requests.exceptions.Timeout:
 except requests.exceptions.HTTPError as e:
     print(f'Ошибка http {e}. Извините, мы уже работаем над неисправностью!')  
     
+ 
     
 '''except requests.exceptions.ConnectionError:
     print('Нет связи с сервером')
