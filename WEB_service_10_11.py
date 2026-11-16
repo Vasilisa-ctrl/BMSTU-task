@@ -46,9 +46,9 @@ headerz = {
     }
 response = requests.get('https://api.github.com/user', headers = headerz)
 print(response.text)
-#print(response.headers)
+#print(response.headers)'''
 # ДЗ: метод requests.Sessions
-
+'''
 try:
     response = request.get('url', timeout=5)
     response.raise_for_status()
@@ -70,29 +70,67 @@ with requests.get(url, stream=True) as r:
             
             
 # Асинхронные библиотеки: aiohttp, httpx
+
 url_name = 'https://api.agify.io?name=Фёдор'
 url_pol = 'https://api.genderize.io?name=Фёдор'
+url_active = 'https://jsonplaceholder.typicode.com/posts'
+url_server = 'https://httpbin.org/post'
+url_pic = 'https://picsum.photos/400/300'
 
 try:
-    response1 = requests.get(url_name, timeout=5)
-    response1.raise_for_status()
-    data1 = response1.json()        
-    age = data1["age"]             
-    response2 = requests.get(url_pol, timeout=5)
-    response2.raise_for_status()
-    data2 = response2.json()        
-    probability = data2["probability"]
+    # Этап 1
+    responseAge = requests.get(url_name, timeout=5)
+    responseAge.raise_for_status()
+    dataAge = responseAge.json()        
+    age = dataAge["age"]             
+    responsePol = requests.get(url_pol, timeout=5)
+    responsePol.raise_for_status()
+    dataPol = responsePol.json() 
+    pol = dataPol["gender"]       
+    probability = dataVer["probability"]
     
     print(f"Цель: Фёдор. Вероятный возраст: {age}")
     print(f"Вероятность женского пола: {probability}%")
     
+    # Этап 2
+    ID = {'userId': 7}
+    headerBrowse = {
+    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) СекретныйАгентБот/1.0',
+    'Accept-Language':'ru-RU,ru;q=0.9'
+    }
+    
+    responseActive = requests.get(url_active, params=ID, timeout=5)
+    responseActive.raise_for_status()
+    data = responseActive.json()       
+    wc = len(responseActive.text) 
+    print(wc)
+    print(responseActive.headers)    
+    
+    # Этап 3
+    ResultData = {'name': 'Фёдор', 'age': age, 'gender': pol, 'number_of_rows': wc}
+    responseResult = requests.post(url_server, json=ResultData, timeout=5)
+    answer = (responseResult.text)
+    print(answer)
+    
+    # Этап 4
+    with requests.get(url_pic, stream=True) as r:
+        r.raise_for_status()
+        with open('evidence.jpg', 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print(len(r.content))
+    # Этап 5
+    responseExample1 = ('https://httpbin.org/status/404', timeout=5)
+    responseExample2 = ('https://httpbin.org/delay/6', timeout=3)
+    
+    
 except requests.exceptions.Timeout:
-    print('Сервер залип, время вышло')
+    print('Сервер залип, время вышло. Приносим извинения, скоро должно заработать!')
 except requests.exceptions.HTTPError as e:
-    print(f'Ошибка http {e}')
-except requests.exceptions.ConnectionError:
+    print(f'Ошибка http {e}. Извините, мы уже работаем над неисправностью!')
+'''except requests.exceptions.ConnectionError:
     print('Нет связи с сервером')
 except requests.exceptions.RequestException as e:
-    print (f'Непредвиденная ошибка {e}')
+    print (f'Непредвиденная ошибка {e}')'''
     
 
